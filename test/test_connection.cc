@@ -50,6 +50,16 @@ TEST_F(ConnectionTest, TestFailForInvalidCA)
   EXPECT_EQ(-1, res.code);
 }
 
+TEST_F(ConnectionTestRemote, TestAllowInsecure)
+{
+  // set a non-existing file for the CA file, should allow access anyway
+  conn->SetCAInfoFilePath("non-existent file");
+  conn->SetVerifyPeer(false);
+  RestClient::Response res = conn->get("/get");
+
+  EXPECT_EQ(200, res.code);
+}
+
 TEST_F(ConnectionTest, TestDefaultUserAgent)
 {
   RestClient::Response res = conn->get("/get");

@@ -36,6 +36,7 @@ RestClient::Connection::Connection(const std::string& baseUrl)
   this->followRedirects = false;
   this->maxRedirects = -1l;
   this->noSignal = false;
+  this->verifyPeer = true;
 }
 
 RestClient::Connection::~Connection() {
@@ -247,6 +248,17 @@ RestClient::Connection::SetKeyPassword(const std::string& keyPassword) {
 }
 
 /**
+ * @brief set SSL peer verification flag
+ *
+ * @param boolean (default is true)
+ *
+ */
+void
+RestClient::Connection::SetVerifyPeer(bool verifyPeer) {
+  this->verifyPeer = verifyPeer;
+}
+
+/**
  * @brief set HTTP proxy address and port
  *
  * @param proxy address with port number
@@ -380,6 +392,12 @@ RestClient::Connection::performCurlRequest(const std::string& uri) {
   if (!this->keyPassword.empty()) {
     curl_easy_setopt(this->curlHandle, CURLOPT_KEYPASSWD,
                      this->keyPassword.c_str());
+  }
+
+  // set peer verification
+  if (!this->verifyPeer) {
+    curl_easy_setopt(this->curlHandle, CURLOPT_SSL_VERIFYPEER,
+                     this->verifyPeer);
   }
 
   // set web proxy address

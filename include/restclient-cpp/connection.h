@@ -160,6 +160,9 @@ class Connection {
     // set CURLOPT_SSLKEY. Default format is PEM
     void SetKeyPath(const std::string& keyPath);
 
+    // set CURLOPT_SSL_VERIFYPEER. Default is true.
+    void SetVerifyPeer(bool verifyPeer);
+
     // set CURLOPT_KEYPASSWD.
     void SetKeyPassword(const std::string& keyPassword);
 
@@ -215,6 +218,7 @@ class Connection {
     std::string certType;
     std::string keyPath;
     std::string keyPassword;
+    bool verifyPeer;
     std::string uriProxy;
     std::string unixSocketPath;
     RestClient::Response performCurlRequest(const std::string& uri);
