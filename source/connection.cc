@@ -398,6 +398,8 @@ RestClient::Connection::performCurlRequest(const std::string& uri) {
   if (!this->verifyPeer) {
     curl_easy_setopt(this->curlHandle, CURLOPT_SSL_VERIFYPEER,
                      this->verifyPeer);
+    curl_easy_setopt(this->curlHandle, CURLOPT_SSL_VERIFYHOST,
+                     this->verifyPeer);
   }
 
   // set web proxy address
